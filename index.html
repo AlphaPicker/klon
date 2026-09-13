@@ -1570,6 +1570,46 @@
       width: 20px;
       color: var(--accent-orange);
     }
+	
+	/* BOUTON TOGGLE RÉDUCTION DES RÉCOMPENSES */
+    .hero-rewards-toggle-row {
+      display: none;
+      justify-content: center;
+      padding-top: 6px;
+      margin-top: 4px;
+      border-top: 1px solid var(--border-color);
+    }
+    .hero-rewards-toggle-row.has-rewards { display: flex; }
+
+    .rewards-toggle-btn {
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      color: var(--text-bright); /* Texte blanc lumineux */
+      padding: 5px 14px;
+      border-radius: 14px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .rewards-toggle-btn:hover {
+      border-color: var(--accent-green-bright); /* Contour vert au survol */
+      color: var(--accent-green-bright);        /* Texte teinté en vert */
+      box-shadow: 0 0 8px rgba(126, 231, 135, 0.3); /* Légère lueur verte */
+    }
+
+    .hero-rewards-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-top: 4px;
+    }
+	
   </style>
 </head>
 <body>
@@ -1699,7 +1739,16 @@
           <span id="global-multiplier-badge" class="progress-badge-header multiplier-badge" onclick="openMultiplierModal()">⚡ 1.0x</span>
         </div>
 
-        <div class="badges-container" id="badges-box" style="margin-top: 4px;"></div>
+        <div class="hero-rewards-toggle-row" id="hero-rewards-toggle-row">
+          <button id="btn-toggle-rewards" class="rewards-toggle-btn" onclick="toggleRewardsVisibility()">
+            🏆 Voir les Récompenses ▾
+          </button>
+        </div>
+
+        <!-- ZONE DÉPLIABLE -->
+        <div class="hero-rewards-wrapper" id="hero-rewards-wrapper" style="display: none;">
+          <div class="badges-container" id="badges-box" style="margin-top: 4px;"></div>
+        </div>
       </div>
 
       <div class="card">
@@ -2170,6 +2219,22 @@
     };
 
     let dialogConfirmCallback = null;
+	
+	let isRewardsVisible = false;
+
+    function toggleRewardsVisibility() {
+      isRewardsVisible = !isRewardsVisible;
+      const wrapper = document.getElementById('hero-rewards-wrapper');
+      const btn = document.getElementById('btn-toggle-rewards');
+
+      if (isRewardsVisible) {
+        wrapper.style.display = 'flex';
+        btn.innerHTML = '🏆 Masquer les Récompenses ▴';
+      } else {
+        wrapper.style.display = 'none';
+        btn.innerHTML = '🏆 Voir les Récompenses ▾';
+      }
+    }
 
     function showCustomDialog(icon, title, message, isConfirm = false, onConfirm = null, isInput = false, defaultValue = "") {
       const t = getT();
@@ -6655,6 +6720,19 @@
           `;
         }
       });
+	  
+	  const toggleRow = document.getElementById('hero-rewards-toggle-row');
+      const wrapper = document.getElementById('hero-rewards-wrapper');
+      if (badgesBox && toggleRow && wrapper) {
+        if (badgesBox.children.length > 0) {
+          toggleRow.classList.add('has-rewards');
+          wrapper.style.display = isRewardsVisible ? 'flex' : 'none';
+          document.getElementById('btn-toggle-rewards').innerHTML = isRewardsVisible ? '🏆 Masquer les Récompenses ▴' : '🏆 Voir les Récompenses ▾';
+        } else {
+          toggleRow.classList.remove('has-rewards');
+          wrapper.style.display = 'none';
+        }
+      }
     }
 
     function checkAutoHistoryRecord(currentPercentage, totalExpenses) {
