@@ -136,6 +136,14 @@
       letter-spacing: -0.5px;
     }
 
+	.app-header h1 a {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .app-header h1 a:hover { opacity: 0.85; transform: scale(1.02); }
+
     .app-header .subtitle {
       font-size: 0.95rem;
       color: var(--accent-blue);
@@ -1619,7 +1627,11 @@
   <div class="app-container">
     
     <header class="app-header">
-      <h1>KLON</h1>
+      <h1>
+        <a href="https://alphapicker.github.io/KLON-CORP/" id="app-klon-link" title="Basculer vers KLON Corp (Gestion des flux)">
+          KLON
+        </a>
+      </h1>
       <div class="subtitle" id="app-header-subtitle">Simulateur de Liberté Financière</div>
       <p class="description" id="app-header-desc">
         Renseigne ton capital et tes charges mensuelles pour calculer ton indépendance financière et débloquer tes Klons d'autonomie.
