@@ -1618,6 +1618,46 @@
       gap: 4px;
       padding-top: 4px;
     }
+
+	  	/* ==========================================
+   PERSONNALISATION SCROLLBAR & INPUTS NUMBER
+   ========================================== */
+
+/* 1. Barres de défilement (Chrome, Safari, Edge) */
+::-webkit-scrollbar { 
+  width: 6px; 
+  height: 6px; 
+}
+::-webkit-scrollbar-track { 
+  background: var(--bg-color); 
+  border-radius: 4px; 
+}
+::-webkit-scrollbar-thumb { 
+  background: var(--border-color); 
+  border-radius: 4px; 
+}
+::-webkit-scrollbar-thumb:hover { 
+  background: var(--accent-purple); 
+}
+
+/* Barre de défilement (Firefox) */
+* { 
+  scrollbar-width: thin; 
+  scrollbar-color: var(--border-color) var(--bg-color); 
+}
+
+/* 2. Masquer les flèches des inputs de type number (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+/* Masquer les flèches (Firefox) */
+input[type="number"] { 
+  -moz-appearance: textfield; 
+  appearance: textfield; 
+}
 	
   </style>
 </head>
