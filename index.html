@@ -1789,12 +1789,9 @@ input[type="number"] {
         <div class="global-progress-bar-row">
 			<div class="progress-bar-bg" style="flex: 1;">
               <div id="global-coverage-bar" class="progress-bar-fill" style="width: 0%;"></div>
-           </div>
-          <div class="progress-bar-bg" style="flex: 1;">
-            <div id="global-coverage-bar" class="progress-bar-fill" style="width: 0%;"></div>
-          </div>
-          <span id="global-coverage-percentage" class="progress-badge-header percentage-badge" onclick="openPercentageModal()">0%</span>
-          <span id="global-multiplier-badge" class="progress-badge-header multiplier-badge" onclick="openMultiplierModal()">⚡ 1.0x</span>
+            </div>
+            <span id="global-coverage-percentage" class="progress-badge-header percentage-badge" onclick="openPercentageModal()">0%</span>
+            <span id="global-multiplier-badge" class="progress-badge-header multiplier-badge" onclick="openMultiplierModal()">⚡ 1.0x</span>
         </div>
 
         <div class="hero-rewards-toggle-row" id="hero-rewards-toggle-row">
@@ -3322,9 +3319,9 @@ input[type="number"] {
     function getBarColor(percentage) {
       if (state.theme === 'colorblind') return 'var(--accent-green-bright)';
       if (percentage > 100) return 'var(--accent-purple)';
-      if (percentage >= 100) return 'var(--accent-green-bright)';
-      if (percentage >= 60) return 'var(--accent-green)';
-      if (percentage >= 20) return 'var(--accent-orange)';
+      if (percentage >= 65) return 'var(--accent-green-bright)';
+      if (percentage >= 35) return 'var(--accent-green)';
+      if (percentage >= 15) return 'var(--accent-orange)';
       return 'var(--accent-red)';
     }
 
