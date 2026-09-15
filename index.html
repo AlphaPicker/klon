@@ -1948,12 +1948,7 @@
     <div class="modal-card">
       <div style="display: flex; flex-direction: column; gap: 4px; flex-shrink: 0;">
         <div class="card-title" id="history-modal-title">📜 Historique de Progression</div>
-        
-        <p style="font-size: 0.85rem; opacity: 0.8;" id="history-modal-desc">
-          Relevés automatiques avec un intervalle minimum de 30 jours entre deux points.
-        </p>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
           <button class="btn-secondary" onclick="forceAddHistoryRecord()" id="btn-add-history-point">➕ Relevé aujourd'hui</button>
         </div>
       </div>
@@ -2461,7 +2456,6 @@
         completedCounter: "👑 {0}/{1} à 100%",
         superCompletedCounter: "⭐ {0} Super Klon{1} au max",
         historyTitle: "📜 Historique de Progression",
-        historyDesc: "Relevés automatiques avec un intervalle minimum de 30 jours entre deux points.",
         historyBtnAdd: "➕ Relevé aujourd'hui",
         historyEmpty: "Aucun relevé enregistré pour le moment.",
         historyAddedSuccess: "Relevé de progression enregistré !",
@@ -2598,7 +2592,6 @@
         completedCounter: "👑 {0}/{1} at 100%",
         superCompletedCounter: "⭐ {0} Super Klon{1} maxed",
         historyTitle: "📜 Progress History",
-        historyDesc: "Automatic logs with a minimum 30-day interval between points.",
         historyBtnAdd: "➕ Log today",
         historyEmpty: "No progress log recorded yet.",
         historyAddedSuccess: "Progress log recorded!",
@@ -7501,7 +7494,6 @@
       document.getElementById('opt-theme-light').innerText = t.optThemeLight;
       document.getElementById('opt-theme-colorblind').innerText = t.optThemeColorblind;
       document.getElementById('history-modal-title').innerText = t.historyTitle;
-      document.getElementById('history-modal-desc').innerText = t.historyDesc;
       document.getElementById('btn-add-history-point').innerText = t.historyBtnAdd;
       document.getElementById('btn-history-close').innerText = t.btnModalClose;
       document.getElementById('btn-badge-modal-close').innerText = t.btnBadgeModalClose;
