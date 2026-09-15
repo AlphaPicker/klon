@@ -7547,42 +7547,53 @@
       const jsonContent = JSON.stringify(state, null, 2);
       const today = new Date().toISOString().slice(0, 10);
       const fileName = `KLON_${today}_backup.json`;
-      const blob = new Blob([jsonContent], { type: 'application/json' });
       const msg = `${t.export_note}<br><br><a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-blue); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t.discover_klon_corp}</a>`;
 
-      // Téléchargement direct via lien temporaire (compatible 100% PC et mobile)
+      try {
+        const blob = new Blob([jsonContent], { type: 'application/json' });
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // 1. Essai du partage natif (Mobile moderne)
+        if (isMobile && navigator.share && navigator.canShare) {
+          const file = new File([blob], fileName, { type: 'application/json' });
+          if (navigator.canShare({ files: [file] })) {
+            navigator.share({
+              files: [file],
+              title: 'Sauvegarde KLON',
+              text: 'Fichier de sauvegarde des données KLON.'
+            }).then(() => {
+              showCustomDialog('💾', t.export_title, msg, false, null);
+            }).catch(() => {
+              // En cas d'annulation ou refus, fallback vers téléchargement direct
+              fallbackDownload(jsonContent, fileName, msg, t);
+            });
+            return;
+          }
+        }
+
+        // 2. Fallback classique (Desktop ou Mobile sans Share API)
+        fallbackDownload(jsonContent, fileName, msg, t);
+
+      } catch (err) {
+        showCustomDialog('⚠️', 'Erreur Export', 'Impossible de générer le fichier sur cet appareil.');
+      }
+    }
+
+    function fallbackDownload(content, fileName, msg, t) {
+      const blob = new Blob([content], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
       a.download = fileName;
+      a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
-
+      
       setTimeout(() => {
-        showCustomDialog('💾', t.export_title, msg, false, null);
+        document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        showCustomDialog('💾', t.export_title, msg, false, null);
       }, 300);
-    }
-
-      // 2. Téléchargement direct PC / Fallback
-      triggerDownload(blob, fileName, msg, t);
-    }
-
-    // Fonction auxiliaire de téléchargement pour PC
-    function triggerDownload(blob, fileName, msg, t) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      setTimeout(() => {
-        showCustomDialog('💾', t.export_title, msg, false, null);
-        URL.revokeObjectURL(url);
-      }, 400);
     }
 
     function importData(event) {
