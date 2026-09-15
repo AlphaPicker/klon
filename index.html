@@ -7540,29 +7540,46 @@
       if (box) box.classList.toggle('active');
     }
 
-    function exportData() {
-      const t = getT();
-      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-  
-      // Date du jour au format YYYY-MM-DD
-      const today = new Date().toISOString().slice(0, 10);
-      const fileName = `KLON_${today}_backup.json`;
-  
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-  
-      // Construction du message avec la note de traduction et le lien vers KLON Corp
-      const msg = `${t.export_note}<br><br><a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-purple); font-weight: bold; text-decoration: underline;">${t.discover_klon_corp}</a>`;
+    async function exportData() {
+  const t = getT();
+  const jsonContent = JSON.stringify(state, null, 2);
+  const today = new Date().toISOString().slice(0, 10);
+  const fileName = `KLON_${today}_backup.json`;
+  const blob = new Blob([jsonContent], { type: 'application/json' });
 
+  const msg = `${t.export_note}<br><br><a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-blue); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t.discover_klon_corp}</a>`;
+
+  // 1. Partage natif mobile (iOS / Android)
+  const file = new File([blob], fileName, { type: 'application/json' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({
+        files: [file],
+        title: 'Sauvegarde KLON',
+        text: 'Fichier de sauvegarde des données KLON.'
+      });
+      // S'affiche après validation du partage
       showCustomDialog('💾', t.export_title, msg, false, null);
-  
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (err) {
+      // Si l'utilisateur annule le menu de partage, on n'affiche rien
     }
+    return;
+  }
+
+  // 2. Fallback classique pour ordinateur
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  setTimeout(() => {
+    showCustomDialog('💾', t.export_title, msg, false, null);
+    URL.revokeObjectURL(url);
+  }, 300);
+}
 
     function importData(event) {
       const file = event.target.files[0];
