@@ -1724,16 +1724,18 @@
       </div>
 
       <div class="card">
-        <div class="card-title" id="lbl-data-management-title">💾 Gestion des Données</div>
-        <div style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
-          <button class="btn-secondary" style="flex: 1; min-width: 90px;" id="btn-export" onclick="exportData()">💾 Exporter</button
-          <label class="btn-secondary" style="flex: 1; min-width: 90px;" id="lbl-import">
-            <span>📂 Importer</span>
-            <input type="file" accept=".json" style="display: none;" onchange="importData(event)">
-          </label>
-          <button class="btn-reset" style="flex: 1; min-width: 110px;" id="btn-reset" onclick="confirmResetDialog()">🗑️ Réinitialiser</button>
-        </div>
-      </div>
+       <div class="card-title" id="lbl-data-management-title">💾 Gestion des Données</div>
+       <div style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
+         <button class="btn-secondary" style="flex: 1; min-width: 90px;" id="btn-export" onclick="exportData()">💾 Exporter</button>
+
+         <!-- Input invisible séparé -->
+         <input type="file" id="file-import-input" accept=".json" style="display: none;" onchange="importData(event)">
+         <!-- Bouton propre qui déclenche le clic sur l'input -->
+         <button class="btn-secondary" style="flex: 1; min-width: 90px;" id="btn-import" onclick="document.getElementById('file-import-input').click()">📂 Importer</button>
+
+         <button class="btn-reset" style="flex: 1; min-width: 110px;" id="btn-reset" onclick="confirmResetDialog()">🗑️ Réinitialiser</button>
+       </div>
+     </div>
     </div>
 
     <!-- ONGLET 2 : RESULTAT DES KLONS -->
@@ -7461,7 +7463,7 @@
       document.getElementById('lbl-expenses-list-title').innerText = t.lblExpensesListTitle;
       document.getElementById('lbl-data-management-title').innerText = t.lblDataManagementTitle;
       document.getElementById('btn-export').innerText = t.btnExport;
-      document.getElementById('lbl-import').querySelector('span').innerText = t.lblImport;
+      document.getElementById('btn-import').innerText = t.lblImport;
       document.getElementById('btn-reset').innerText = t.btnReset;
       document.getElementById('lbl-global-progress').innerText = t.lblGlobalProgress;
       document.getElementById('lbl-allocation-title').innerText = t.lblAllocationTitle;
