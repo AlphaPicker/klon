@@ -6899,18 +6899,23 @@
       const multValues = records.map(r => r.multiplier !== undefined ? r.multiplier : calculateMultiplier(r.capital, r.expenses));
       const actualMaxMult = Math.max(...multValues);
       const minMult = 1.0;
-      let maxMult = actualMaxMult <= 2.0 ? 2.0 : Math.ceil(actualMaxMult * 1.15);
 
-      let multGridValues = [1.0];
-      if (maxMult > 2.0) multGridValues.push(Math.round((maxMult + 1.0) / 2));
-      else multGridValues.push(1.5);
-      multGridValues = [...new Set(multGridValues)].sort((a, b) => a - b);
+      // 1. Plafond entier au-dessus du max (ex: 2.3x donne 3x)
+      let maxMult = actualMaxMult <= 1.5 ? 2.0 : Math.ceil(actualMaxMult);
+      if (maxMult === actualMaxMult) maxMult += 1.0; // Évite que les points collent la ligne du haut
+
+      // 2. Ligne médiane exacte à 50%
+      const midMult = Math.round(((minMult + maxMult) / 2) * 10) / 10;
+
+      // 3. Les 3 lignes bien présentes : [Bas 1.0x, Milieu 50%, Haut Plafond]
+      const multGridValues = [minMult, midMult, maxMult];
 
       multGridValues.forEach(val => {
         const yVal = paddingTop + chartHeight - ((val - minMult) / (maxMult - minMult)) * chartHeight;
+        const displayLabel = (val % 1 === 0) ? `${val}x` : `${val.toFixed(1)}x`;
         svgMult.innerHTML += `
           <line x1="${paddingLeft}" y1="${yVal}" x2="${400 - paddingRight}" y2="${yVal}" stroke="var(--border-color)" stroke-dasharray="3,3" stroke-width="1" />
-          <text x="${paddingLeft - 6}" y="${yVal + 3}" fill="var(--text-main)" font-size="9" text-anchor="end" opacity="0.65">${val}x</text>
+          <text x="${paddingLeft - 6}" y="${yVal + 3}" fill="var(--text-main)" font-size="9" text-anchor="end" opacity="0.65">${displayLabel}</text>
         `;
       });
 
