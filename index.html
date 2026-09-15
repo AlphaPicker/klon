@@ -7551,26 +7551,27 @@
 
       const msg = `${t.export_note}<br><br><a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-blue); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t.discover_klon_corp}</a>`;
 
-      // Détection mobile (Android / iOS) pour réserver Web Share aux téléphones
       const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const file = new File([blob], fileName, { type: 'application/json' });
 
-      // Partage natif UNIQUEMENT sur mobile si supporté
+      // 1. Partage natif mobile (iOS / Android)
       if (isMobile && navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({
           files: [file],
           title: 'Sauvegarde KLON',
           text: 'Fichier de sauvegarde des données KLON.'
         }).then(() => {
-          showCustomDialog('💾', t.export_title, msg, false, null);
-        }).catch((err) => {
-          // Si annulation ou erreur, fallback sur le téléchargement classique
-          triggerDownload(blob, fileName, msg, t);
+          // Temporisation de 400 ms après la fermeture du menu de partage mobile
+          setTimeout(() => {
+            showCustomDialog('💾', t.export_title, msg, false, null);
+          }, 400);
+        }).catch(() => {
+          // Si l'utilisateur annule le menu de partage, on ne fait rien
         });
         return;
       }
 
-      // Téléchargement direct pour PC (et fallback mobile)
+      // 2. Téléchargement direct PC / Fallback
       triggerDownload(blob, fileName, msg, t);
     }
 
@@ -7587,7 +7588,7 @@
       setTimeout(() => {
         showCustomDialog('💾', t.export_title, msg, false, null);
         URL.revokeObjectURL(url);
-      }, 300);
+      }, 400);
     }
 
     function importData(event) {
