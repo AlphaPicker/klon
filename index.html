@@ -2253,7 +2253,7 @@
       const t = getT();
       document.getElementById('dialog-icon').innerText = icon || 'ℹ️';
       document.getElementById('dialog-title').innerText = title || 'Information';
-      document.getElementById('dialog-message').innerText = message || '';
+      document.getElementById('dialog-message').innerHTML = message || '';
 
       const inputContainer = document.getElementById('dialog-input-container');
       const textInput = document.getElementById('dialog-text-input');
@@ -2282,7 +2282,7 @@
       } else {
         inputContainer.style.display = 'none';
         btnBox.innerHTML = `
-          <button class="btn-primary" onclick="closeCustomDialog()">OK</button>
+          <button class="btn-primary" onclick="closeCustomDialog()" style="width: 100%; padding: 10px;">OK</button>
         `;
         document.getElementById('custom-dialog-modal').classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -2391,6 +2391,9 @@
         lblExpensesListTitle: "📋 Liste de tes charges mensuelles",
         lblDataManagementTitle: "💾 Gestion des Données",
         btnExport: "💾 Exporter",
+		export_title: "Exportation réussie !",
+        export_note: "Note : Si vous utilisez aussi KLON-CORP, pensez à l'exporter séparément. Les sauvegardes sont distinctes.",
+		discover_klon_corp: "👉 Découvrir KLON-CORP",
         lblImport: "📂 Importer",
         btnReset: "🗑️ Réinitialiser",
         lblGlobalProgress: "🎯 Progression de l'autonomie",
@@ -2525,6 +2528,9 @@
         lblExpensesListTitle: "📋 List of Your Monthly Expenses",
         lblDataManagementTitle: "💾 Data Management",
         btnExport: "💾 Export",
+		export_title: "Successful Export!",
+        export_note: "Note: If you also use KLON-CORP, remember to export it separately. Backups are distinct.",
+		discover_klon_corp: "👉 Discover KLON-CORP",
         lblImport: "📂 Import",
         btnReset: "🗑️ Reset",
         lblGlobalProgress: "🎯 Autonomy Progress",
@@ -7535,19 +7541,27 @@
     }
 
     function exportData() {
-      try {
-        const jsonContent = JSON.stringify(state, null, 2);
-        const blob = new Blob([jsonContent], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `klon_backup_${new Date().toISOString().slice(0, 10)}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      } catch (err) {
-        showCustomDialog('⚠️', 'Export', err.message);
-      }
+      const t = getT();
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+  
+      // Date du jour au format YYYY-MM-DD
+      const today = new Date().toISOString().slice(0, 10);
+      const fileName = `KLON_${today}_backup.json`;
+  
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+  
+      // Construction du message avec la note de traduction et le lien vers KLON Corp
+      const msg = `${t.export_note}<br><br><a href="https://alphapicker.github.io/KLON-CORP/" target="_blank" style="color: var(--accent-purple); font-weight: bold; text-decoration: underline;">${t.discover_klon_corp}</a>`;
+
+      showCustomDialog('💾', t.export_title, msg, false, null);
+  
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
     function importData(event) {
