@@ -7695,7 +7695,8 @@ input[type="number"] {
       updateCalculations();
     });
   </script>
-if ('serviceWorker' in navigator) {
+<script>
+  if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').then((reg) => {
         // Vérifie s'il y a une mise à jour de sw.js au chargement de la page
@@ -7703,6 +7704,7 @@ if ('serviceWorker' in navigator) {
       });
     });
   }
+</script>
   </script>
 </body>
 </html>
