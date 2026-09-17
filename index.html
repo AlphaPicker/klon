@@ -7586,29 +7586,29 @@ input[type="number"] {
     }
 
     function exportData() {
-      const t = getT();
-      const jsonContent = JSON.stringify(state, null, 2);
-      const today = new Date().toISOString().slice(0, 10);
-      const fileName = `KLON_${today}_backup.json`;
-      const blob = new Blob([jsonContent], { type: 'application/json' });
-      const msg = `${t('export_note')}<br><br>` +
-      `<a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-purple); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t('discover_klon-corp')}</a><br>` +
-      `<a href="https://alphapicker.github.io/klon-stake/" target="_blank" style="color: var(--accent-orange); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t('discover_klon_stake')}</a>`;
+  const t = getT();
+  const jsonContent = JSON.stringify(state, null, 2);
+  const today = new Date().toISOString().slice(0, 10);
+  const fileName = `KLON_${today}_backup.json`;
+  const blob = new Blob([jsonContent], { type: 'application/json' });
+  const msg = `${t.export_note}<br><br>` +
+  `<a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-purple); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t.discover_klon_corp}</a><br>` +
+  `<a href="https://alphapicker.github.io/klon-stake/" target="_blank" style="color: var(--accent-orange); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t.discover_klon_stake}</a>`;
 
-      // Téléchargement direct via lien temporaire (compatible PC et mobile)
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+  // Téléchargement direct via lien temporaire (compatible PC et mobile)
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 
-      setTimeout(() => {
-        showCustomDialog('💾', t.export_title, msg, false, null);
-        URL.revokeObjectURL(url);
-      }, 700);
-    }
+  setTimeout(() => {
+    showCustomDialog('💾', t.export_title, msg, false, null);
+    URL.revokeObjectURL(url);
+  }, 700);
+}
 
     function fallbackDownload(content, fileName, msg, t) {
       const blob = new Blob([content], { type: 'application/json' });
