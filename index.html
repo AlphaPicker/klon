@@ -2431,6 +2431,7 @@ input[type="number"] {
 		export_title: "Exportation réussie !",
         export_note: "Note : Si vous utilisez aussi KLON-CORP, pensez à l'exporter séparément. Les sauvegardes sont distinctes.",
 		discover_klon_corp: "👉 Découvrir KLON-CORP",
+		discover_klon_stake: "👉 Découvrir KLON-STAKE",
         lblImport: "📂 Importer",
         btnReset: "🗑️ Réinitialiser",
         lblGlobalProgress: "🎯 Progression de l'autonomie",
@@ -2567,6 +2568,7 @@ input[type="number"] {
 		export_title: "Successful Export!",
         export_note: "Note: If you also use KLON-CORP, remember to export it separately. Backups are distinct.",
 		discover_klon_corp: "👉 Discover KLON-CORP",
+		discover_klon_stake: "👉 Discover KLON-STAKE",
         lblImport: "📂 Import",
         btnReset: "🗑️ Reset",
         lblGlobalProgress: "🎯 Autonomy Progress",
@@ -7589,7 +7591,9 @@ input[type="number"] {
       const today = new Date().toISOString().slice(0, 10);
       const fileName = `KLON_${today}_backup.json`;
       const blob = new Blob([jsonContent], { type: 'application/json' });
-      const msg = `${t.export_note}<br><br><a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-blue); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t.discover_klon_corp}</a>`;
+      const msg = `${t('export_note')}<br><br>` +
+      `<a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-purple); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t('discover_klon-corp')}</a><br>` +
+      `<a href="https://alphapicker.github.io/klon-stake/" target="_blank" style="color: var(--accent-orange); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t('discover_klon_stake')}</a>`;
 
       // Téléchargement direct via lien temporaire (compatible PC et mobile)
       const url = URL.createObjectURL(blob);
