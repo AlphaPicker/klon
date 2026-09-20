@@ -2310,8 +2310,8 @@ input[type="number"] {
       historyRecords: safeParse('alpha_history_records', []),
       gameLeaderboards: safeParse('alpha_game_leaderboards', {}),
       klonboyControlsLayout: safeParse('alpha_klonboy_controls_layout', null),
-      gameDifficulty: safeGet('alpha_game_difficulty', 'medium') // <-- Ajouté ici (défaut : medium)
-	  hasUnsavedChanges: safeParse('alpha_has_unsaved_changes', false)
+      gameDifficulty: safeGet('alpha_game_difficulty', 'medium'),
+      hasUnsavedChanges: safeParse('alpha_has_unsaved_changes', false)
     };
 
     let dialogConfirmCallback = null;
@@ -3395,10 +3395,10 @@ input[type="number"] {
       safeSet('alpha_history_records', JSON.stringify(state.historyRecords));
       safeSet('alpha_game_leaderboards', JSON.stringify(state.gameLeaderboards));
       safeSet('alpha_klonboy_controls_layout', JSON.stringify(state.klonboyControlsLayout));
-	  safeSet('alpha_game_difficulty', state.gameDifficulty); // <-- Sauvegarde le niveau choisi
+      safeSet('alpha_game_difficulty', state.gameDifficulty);
       safeSet('alpha_sort_mode', state.sortMode);
       safeSet('alpha_cards_order', JSON.stringify(state.cardsOrder));
-	  safeSet('alpha_has_unsaved_changes', state.hasUnsavedChanges);
+      safeSet('alpha_has_unsaved_changes', state.hasUnsavedChanges);
     }
 
     function switchTab(tabId, evt) {
