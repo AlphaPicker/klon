@@ -3548,6 +3548,7 @@ input[type="number"] {
         renderExpenses();
         saveState();
         updateCalculations();
+		markUnsavedChanges();
       }
     }
 
@@ -3563,6 +3564,7 @@ input[type="number"] {
         saveState();
         calculateTotalExpenses();
         updateCalculations();
+		markUnsavedChanges();
       }
     }
 
@@ -3577,6 +3579,7 @@ input[type="number"] {
       renderExpenses();
       saveState();
       updateCalculations();
+	  markUnsavedChanges();
     }
 
     function calculateTotalExpenses() {
@@ -7778,6 +7781,7 @@ function showBackupWarningInfo() {
       updateCurrencyDisplay();
       renderExpenses();
       updateCalculations();
+	  renderClones();
 	  updateBackupWarningUI();
     });
   </script>
