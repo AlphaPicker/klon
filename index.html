@@ -7770,20 +7770,20 @@ function showBackupWarningInfo() {
 
     // INITIALISATION DOM
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('user-firstname-input').value = state.firstname;
-      document.getElementById('capital-input').value = state.capital || '';
-      document.getElementById('currency-select').value = state.currency;
-      document.getElementById('theme-select').value = state.theme;
-      document.getElementById('sort-select').value = state.sortMode;
-      document.documentElement.setAttribute('data-theme', state.theme);
+  document.getElementById('user-firstname-input').value = state.firstname;
+  document.getElementById('capital-input').value = state.capital || '';
+  document.getElementById('currency-select').value = state.currency;
+  document.getElementById('theme-select').value = state.theme;
+  document.getElementById('sort-select').value = state.sortMode;
+  document.documentElement.setAttribute('data-theme', state.theme);
 
-      applyTranslations();
-      updateCurrencyDisplay();
-      renderExpenses();
-      updateCalculations();
-	  renderClones();
-	  updateBackupWarningUI();
-    });
+  applyTranslations();
+  updateCurrencyDisplay();
+  renderExpenses();
+  updateCalculations();
+  renderClones(); // <-- Force le rendu initial de la liste des charges / Klons
+  updateBackupWarningUI();
+});
   </script>
 <script>
   if ('serviceWorker' in navigator) {
