@@ -6790,16 +6790,14 @@ input[type="number"] {
       
       ALL_BADGES.forEach(b => {
         const isActive = currentlyValid.includes(b.id);
-        const wasEverUnlocked = state.everUnlockedBadges.includes(b.id);
 
-        if (wasEverUnlocked) {
-          let stateClass = isActive ? "active-unlocked" : "lost-inactive";
-          let statusIcon = isActive ? "" : " ⚠️";
+        // On n'affiche le badge QUE s'il est actuellement valide
+        if (isActive) {
           const superClass = b.isSuper ? 'super-badge' : '';
 
           badgesBox.innerHTML += `
-            <div class="badge-item ${stateClass} ${superClass}" onclick="openBadgeModal('${b.id}', '${b.icon}', ${isActive})">
-              <span>${b.icon}</span> ${b.label}${statusIcon}
+            <div class="badge-item active-unlocked ${superClass}" onclick="openBadgeModal('${b.id}', '${b.icon}', true)">
+              <span>${b.icon}</span> ${b.label}
             </div>
           `;
         }
