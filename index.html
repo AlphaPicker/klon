@@ -33,6 +33,7 @@
       --accent-green: #238636;
       --accent-green-bright: #7ee787;
       --accent-orange: #f0883e;
+	  --accent-yellow: #f59e0b;
       --accent-red: #da3633;
       --accent-purple: #a371f7;
       --nav-active-bg: #21262d;
@@ -58,6 +59,7 @@
       --accent-green: #1f883d;
       --accent-green-bright: #1a7f37;
       --accent-orange: #bc4c00;
+	  --accent-yellow: #d97706;
       --accent-red: #cf222e;
       --accent-purple: #8250df;
       --nav-active-bg: #e1e4e8;
@@ -82,6 +84,7 @@
       --accent-green: #0d6efd;
       --accent-green-bright: #ffcc00;
       --accent-orange: #ff8000;
+	  --accent-yellow: #ffcc00;
       --accent-red: #ffcc00;
       --accent-purple: #ffff00;
       --nav-active-bg: #2a2a2a;
@@ -921,6 +924,16 @@
       cursor: pointer;
       box-sizing: border-box;
     }
+	
+	.link-btn:hover { border-color: var(--accent-purple); color: var(--text-bright); }
+    .link-btn-blue { color: var(--accent-blue) !important; }
+    .link-btn-blue:hover { border-color: var(--accent-blue) !important; color: var(--text-bright) !important; }
+	.link-btn-purple { color: var(--accent-purple) !important; }
+    .link-btn-purple:hover { border-color: var(--accent-purple) !important; color: var(--text-bright) !important; }
+    .link-btn-orange { color: var(--accent-orange) !important; }
+    .link-btn-orange:hover { border-color: var(--accent-orange) !important; color: var(--text-bright) !important; }
+    .link-btn-yellow { color: var(--accent-yellow) !important; }
+    .link-btn-yellow:hover { border-color: var(--accent-yellow) !important; color: var(--text-bright) !important; }
 
     .link-btn-paypal {
       background-color: var(--btn-paypal-bg) !important;
@@ -1807,29 +1820,29 @@ input[type="number"] {
       </div>
 
       <div class="card">
-        <div class="card-header-flex">
-          <div class="card-title" id="lbl-allocation-title">Allocation de la Rente</div>
-          <button class="btn-global-settings" id="btn-modal-open" onclick="openModal()">⚙️ Avatars par Palier</button>
-        </div>
-        
-        <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-top: 4px;">
-          <div style="font-size: 0.9rem;">
-            <span id="lbl-remaining-capacity">Reste disponible :</span> <strong id="remaining-capacity-display" style="color: var(--accent-blue);">0 /mois</strong>
-          </div>
-          <div style="display: flex; gap: 6px;" id="clone-counters-box"></div>
-        </div>
+  <div class="card-header-flex">
+    <div class="card-title" id="lbl-allocation-title">💰 Rente</div>
+    <button class="btn-global-settings" id="btn-modal-open" onclick="openModal()">🎭 Visuels</button>
+  </div>
+  
+  <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-top: 4px;">
+    <div style="font-size: 0.9rem;">
+      <span id="lbl-remaining-capacity">Restant :</span> <strong id="remaining-capacity-display" style="color: var(--accent-blue);">0 /mois</strong>
+    </div>
+    <div style="display: flex; gap: 6px;" id="clone-counters-box"></div>
+  </div>
 
-        <div class="sort-select-box" style="margin-top: 8px;">
-          <span id="lbl-sort-by" style="font-size: 0.85rem; font-weight: bold;">Trier les cartes :</span>
-          <select id="sort-select" onchange="changeSortMode(this.value)">
-            <option value="manual" id="opt-sort-manual">✋ Manuel</option>
-            <option value="prog_desc" id="opt-sort-prog-desc">Complétés</option>
-            <option value="prog_asc" id="opt-sort-prog-asc">À financer</option>
-            <option value="amount_desc" id="opt-sort-amount-desc">Montant max</option>
-            <option value="amount_asc" id="opt-sort-amount-asc">Montant min</option>
-          </select>
-        </div>
-      </div>
+  <div class="sort-select-box" style="margin-top: 8px;">
+    <span id="lbl-sort-by" style="font-size: 0.85rem; font-weight: bold;">Trier les cartes :</span>
+    <select id="sort-select" onchange="changeSortMode(this.value)">
+      <option value="manual" id="opt-sort-manual">✋ Manuel</option>
+      <option value="prog_desc" id="opt-sort-prog-desc">Complétés</option>
+      <option value="prog_asc" id="opt-sort-prog-asc">À financer</option>
+      <option value="amount_desc" id="opt-sort-amount-desc">Montant max</option>
+      <option value="amount_asc" id="opt-sort-amount-asc">Montant min</option>
+    </select>
+  </div>
+</div>
 
       <div id="clones-container" style="display: flex; flex-direction: column; gap: 12px;"></div>
       <div id="tier-boss-container"></div>
@@ -1863,17 +1876,26 @@ input[type="number"] {
       </div>
 
       <div class="card">
-        <div class="card-title" id="lbl-eco-portfolio-title">Portefeuille & Performances</div>
+        <div class="card-title" id="lbl-eco-portfolio-title">🎯 Portefeuille & Performances</div>
         <a href="https://dub.sh/klon-wikifolio" target="_blank" rel="noopener noreferrer" class="link-btn" id="lbl-eco-wikifolio">Suivre le Wikifolio Alpha Picker</a>
       </div>
 
       <div class="card">
-        <div class="card-title" id="lbl-eco-analysis-title">Analyses & Thèses</div>
+        <div class="card-title" id="lbl-eco-analysis-title">🔬 Analyses & Thèses</div>
         <a href="https://dub.sh/klon-substack" target="_blank" rel="noopener noreferrer" class="link-btn" id="lbl-eco-substack">Suivre le Substack Alpha Picker</a>
       </div>
+	  
+	  <div class="card">
+      <div class="card-title" data-i18n="lbl-eco-suite-title">🧰 La Suite KLON</div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="https://alphapicker.github.io/klon-corp/" target="_blank" rel="noopener noreferrer" class="link-btn link-btn-purple">KLON Corp — Simulateur de capacité financière</a>
+        <a href="https://alphapicker.github.io/klon-stake/" target="_blank" rel="noopener noreferrer" class="link-btn link-btn-orange">KLON Stake — Simulateur de propriété réelle</a>
+        <a href="https://alphapicker.github.io/klon-pulse/" target="_blank" rel="noopener noreferrer" class="link-btn link-btn-yellow">KLON Pulse — Simulateur de transmission vivante</a>
+      </div>
+    </div>
 
       <div class="card">
-        <div class="card-title" id="lbl-eco-support-title">Soutenir le Projet</div>
+        <div class="card-title" id="lbl-eco-support-title">☕ Soutenir le Projet</div>
         <p style="font-size: 0.9rem; line-height: 1.4;" id="lbl-eco-support-desc">
           Si cet outil vous aide dans votre parcours d'autonomie financière, vous pouvez soutenir le projet via les liens ci-dessus ou par un don.
         </p>
@@ -2435,9 +2457,9 @@ input[type="number"] {
         lblImport: "📂 Importer",
         btnReset: "🗑️ Réinitialiser",
         lblGlobalProgress: "🎯 Progression de l'autonomie",
-        lblAllocationTitle: "Allocation de la Rente",
-        btnModalOpen: "⚙️ Avatars par Palier",
-        lblRemainingCapacity: "Reste disponible :",
+        lblAllocationTitle: "💰 Rente",
+        btnModalOpen: "🎭 Visuels",
+        lblRemainingCapacity: "Restant :",
         lblSortBy: "Trier les cartes :",
         optSortManual: "✋ Manuel",
         optSortProgDesc: "Complétés",
@@ -2447,11 +2469,12 @@ input[type="number"] {
         lblEcoTransparency: "<strong>🤝 Transparence & Parrainage :</strong> Les liens ci-dessous sont des liens d'affiliation et de parrainage. En ouvrant un compte via ces accès, vous pouvez bénéficier des bonus de bienvenue proposés par les plateformes tout en soutenant le développement gratuit de l'application.",
         lblEcoBrokersTitle: "📈 Banques & Courtiers",
         lblEcoCryptoTitle: "🪙 Crypto & Rendement Alternatif",
-        lblEcoPortfolioTitle: "Portefeuille & Performances",
+        lblEcoPortfolioTitle: "🎯 Portefeuille & Performances",
         lblEcoWikifolio: "Suivre le Wikifolio Alpha Picker",
-        lblEcoAnalysisTitle: "Analyses & Thèses",
+        lblEcoAnalysisTitle: "🔬 Analyses & Thèses",
+		lblEcoSuiteTitle: "🧰 La Suite KLON",
         lblEcoSubstack: "Suivre le Substack Alpha Picker",
-        lblEcoSupportTitle: "Soutenir le Projet",
+        lblEcoSupportTitle: "☕ Soutenir le Projet",
         lblEcoSupportDesc: "Si cet outil vous aide dans votre parcours d'autonomie financière, vous pouvez soutenir le projet via les liens ci-dessus ou par un don.",
         lblEcoPaypal: "Faire un don via PayPal",
         lblFooterAppInfo: "<strong>KLON</strong> — Application gratuite & Open Source développée par <strong>Alpha Picker</strong> et hébergée sur GitHub Pages.",
@@ -2572,9 +2595,9 @@ input[type="number"] {
         lblImport: "📂 Import",
         btnReset: "🗑️ Reset",
         lblGlobalProgress: "🎯 Autonomy Progress",
-        lblAllocationTitle: "Income Allocation",
-        btnModalOpen: "⚙️ Tier Avatars",
-        lblRemainingCapacity: "Remaining available:",
+        lblAllocationTitle: "💰 Income",
+        btnModalOpen: "🎭 Visuals",
+        lblRemainingCapacity: "Remaining:",
         lblSortBy: "Sort cards:",
         optSortManual: "✋ Manual",
         optSortProgDesc: "Completed",
@@ -2584,11 +2607,12 @@ input[type="number"] {
         lblEcoTransparency: "<strong>🤝 Transparency & Referral:</strong> The links below are affiliate and referral links. By opening an account through these links, you can receive welcome bonuses offered by platforms while supporting the free development of this app.",
         lblEcoBrokersTitle: "📈 Banks & Brokers",
         lblEcoCryptoTitle: "🪙 Crypto & Alternative Yield",
-        lblEcoPortfolioTitle: "Portfolio & Track Record",
+        lblEcoPortfolioTitle: "🎯 Portfolio & Track Record",
         lblEcoWikifolio: "Follow Wikifolio Alpha Picker",
-        lblEcoAnalysisTitle: "Analysis & Investment Thesis",
+        lblEcoAnalysisTitle: "🔬Analysis & Investment Thesis",
         lblEcoSubstack: "Follow Substack Alpha Picker",
-        lblEcoSupportTitle: "Support the Project",
+		lblEcoSuiteTitle: "🧰 La Suite KLON",
+        lblEcoSupportTitle: "☕ Support the Project",
         lblEcoSupportDesc: "If this tool helps you on your path to financial independence, you can support the project.",
         lblEcoPaypal: "Donate via PayPal",
         lblFooterAppInfo: "<strong>KLON</strong> — Free & Open Source app developed by <strong>Alpha Picker</strong> and hosted on GitHub Pages.",
@@ -7525,7 +7549,8 @@ input[type="number"] {
       document.getElementById('lbl-eco-portfolio-title').innerText = t.lblEcoPortfolioTitle;
       document.getElementById('lbl-eco-wikifolio').innerText = t.lblEcoWikifolio;
       document.getElementById('lbl-eco-analysis-title').innerText = t.lblEcoAnalysisTitle;
-      document.getElementById('lbl-eco-substack').innerText = t.lblEcoSubstack;
+	  document.getElementById('lbl-eco-suite-title').innerText = t.lblEcoSuiteTitle;
+	  document.getElementById('lbl-eco-substack').innerText = t.lblEcoSubstack;
       document.getElementById('lbl-eco-support-title').innerText = t.lblEcoSupportTitle;
       document.getElementById('lbl-eco-support-desc').innerText = t.lblEcoSupportDesc;
       document.getElementById('lbl-eco-paypal').innerText = t.lblEcoPaypal;
@@ -7585,29 +7610,32 @@ input[type="number"] {
       if (box) box.classList.toggle('active');
     }
 
-    function exportData() {
-  const t = getT();
-  const jsonContent = JSON.stringify(state, null, 2);
-  const today = new Date().toISOString().slice(0, 10);
-  const fileName = `KLON_${today}_backup.json`;
-  const blob = new Blob([jsonContent], { type: 'application/json' });
-  const msg = `${t.export_note}<br><br>` +
-  `<a href="https://alphapicker.github.io/klon-corp/" target="_blank" style="color: var(--accent-purple); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t.discover_klon_corp}</a><br>` +
-  `<a href="https://alphapicker.github.io/klon-stake/" target="_blank" style="color: var(--accent-orange); font-weight: bold; text-decoration: underline; display: inline-block; margin-top: 4px;">${t.discover_klon_stake}</a>`;
+     function exportData() {
+  try {
+    const jsonContent = JSON.stringify(state, null, 2);
+    const today = new Date().toISOString().slice(0, 10);
+    const fileName = `KLON_backup_${today}.json`;
+    const blob = new Blob([jsonContent], { type: 'application/json' });
 
-  // Téléchargement direct via lien temporaire (compatible PC et mobile)
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  setTimeout(() => {
-    showCustomDialog('💾', t.export_title, msg, false, null);
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }, 700);
+
+    const isEn = state.lang === 'en';
+    showCustomDialog(
+      '💾', 
+      isEn ? 'Export Successful' : 'Exportation réussie', 
+      isEn ? 'Your KLON backup file has been successfully downloaded!' : 'Votre fichier de sauvegarde KLON a été téléchargé avec succès !'
+    );
+  } catch(e) {
+    const isEn = state.lang === 'en';
+    showCustomDialog('⚠️', isEn ? 'Error' : 'Erreur', isEn ? 'Failed to export data.' : 'Impossible d\'exporter les données.');
+  }
 }
 
     function fallbackDownload(content, fileName, msg, t) {
