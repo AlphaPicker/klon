@@ -1671,7 +1671,27 @@ input[type="number"] {
   -moz-appearance: textfield; 
   appearance: textfield; 
 }
-	
+.backup-warning-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background-color: var(--accent-orange);
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 6px;
+  animation: pulse-warning 2s infinite;
+}
+
+@keyframes pulse-warning {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
   </style>
 </head>
 <body>
@@ -1777,7 +1797,10 @@ input[type="number"] {
       </div>
 
       <div class="card">
-       <div class="card-title" id="lbl-data-management-title">💾 Gestion des Données</div>
+        <div class="card-title">
+          <span id="lbl-data-management-title">💾 Gestion des Données</span>
+          <span id="backup-warning" class="backup-warning-badge" style="display: none;" onclick="showBackupWarningInfo()" title="Modifications non sauvegardées">!</span>
+        </div>
        <div style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;">
          <button class="btn-secondary" style="flex: 1; min-width: 90px;" id="btn-export" onclick="exportData()">💾 Exporter</button>
 
@@ -2288,6 +2311,7 @@ input[type="number"] {
       gameLeaderboards: safeParse('alpha_game_leaderboards', {}),
       klonboyControlsLayout: safeParse('alpha_klonboy_controls_layout', null),
       gameDifficulty: safeGet('alpha_game_difficulty', 'medium') // <-- Ajouté ici (défaut : medium)
+	  hasUnsavedChanges: safeParse('alpha_has_unsaved_changes', false)
     };
 
     let dialogConfirmCallback = null;
@@ -3374,6 +3398,7 @@ input[type="number"] {
 	  safeSet('alpha_game_difficulty', state.gameDifficulty); // <-- Sauvegarde le niveau choisi
       safeSet('alpha_sort_mode', state.sortMode);
       safeSet('alpha_cards_order', JSON.stringify(state.cardsOrder));
+	  safeSet('alpha_has_unsaved_changes', state.hasUnsavedChanges);
     }
 
     function switchTab(tabId, evt) {
@@ -7625,6 +7650,10 @@ input[type="number"] {
     URL.revokeObjectURL(url);
 
     const isEn = state.lang === 'en';
+	  // Réinitialisation de l'avertissement après export réussi
+    state.hasUnsavedChanges = false;
+    saveState();
+    updateBackupWarningUI();
     showCustomDialog(
       '💾', 
       isEn ? 'Export Successful' : 'Exportation réussie', 
@@ -7709,6 +7738,32 @@ input[type="number"] {
         updateCalculations();
       });
     }
+	  // Affiche/masque le badge selon l'état
+function updateBackupWarningUI() {
+  const badge = document.getElementById('backup-warning');
+  if (badge) {
+    badge.style.display = state.hasUnsavedChanges ? 'inline-flex' : 'none';
+  }
+}
+
+// Marque les données comme modifiées non exportées
+function markUnsavedChanges() {
+  state.hasUnsavedChanges = true;
+  saveState();
+  updateBackupWarningUI();
+}
+
+// Message d'information lors du clic sur le point d'exclamation
+function showBackupWarningInfo() {
+  const isEn = state.lang === 'en';
+  showCustomDialog(
+    '⚠️',
+    isEn ? 'Unsaved Export' : 'Export non sauvegardé',
+    isEn 
+      ? 'You have made changes since your last export. Consider downloading a new backup file!' 
+      : 'Tu as apporté des modifications depuis ton dernier export. Pense à télécharger une nouvelle sauvegarde !'
+  );
+}
 
     // INITIALISATION DOM
     window.addEventListener('DOMContentLoaded', () => {
@@ -7723,6 +7778,7 @@ input[type="number"] {
       updateCurrencyDisplay();
       renderExpenses();
       updateCalculations();
+	  updateBackupWarningUI();
     });
   </script>
 <script>
