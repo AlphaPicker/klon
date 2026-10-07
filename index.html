@@ -2183,8 +2183,6 @@ input[type="number"] {
             <button class="btn-primary klonboy-pause-btn" id="btn-pause-resume" onclick="toggleKlonBoyPauseMenu()">▶️ Reprendre</button>
             <button class="btn-secondary klonboy-pause-btn" id="btn-toggle-customize" onclick="toggleControlsCustomizeMode()">🖐️ Déplacer touches</button>
             <button class="btn-secondary klonboy-pause-btn" id="btn-pause-reset-controls" onclick="resetControlsLayout()">🔄 Réinitialiser touches</button>
-            <!-- NOUVEAU BOUTON DIFFICULTÉ (remplace le top 10) -->
-            <button class="btn-secondary klonboy-pause-btn" id="btn-pause-difficulty" onclick="cycleGameDifficulty()">⚡ Niveau : 🟡 Moyen</button>
             <button class="btn-reset klonboy-pause-btn" id="btn-pause-quit" onclick="closeSnakeGame()">❌ Quitter console</button>
           </div>
         </div>
@@ -2310,7 +2308,6 @@ input[type="number"] {
       historyRecords: safeParse('alpha_history_records', []),
       gameLeaderboards: safeParse('alpha_game_leaderboards', {}),
       klonboyControlsLayout: safeParse('alpha_klonboy_controls_layout', null),
-      gameDifficulty: safeGet('alpha_game_difficulty', 'medium'),
       hasUnsavedChanges: safeParse('alpha_has_unsaved_changes', false)
     };
 
@@ -3395,7 +3392,6 @@ input[type="number"] {
       safeSet('alpha_history_records', JSON.stringify(state.historyRecords));
       safeSet('alpha_game_leaderboards', JSON.stringify(state.gameLeaderboards));
       safeSet('alpha_klonboy_controls_layout', JSON.stringify(state.klonboyControlsLayout));
-      safeSet('alpha_game_difficulty', state.gameDifficulty);
       safeSet('alpha_sort_mode', state.sortMode);
       safeSet('alpha_cards_order', JSON.stringify(state.cardsOrder));
       safeSet('alpha_has_unsaved_changes', state.hasUnsavedChanges);
@@ -4244,38 +4240,7 @@ input[type="number"] {
       }
     }
 	
-	function cycleGameDifficulty() {
-      const levels = ['easy', 'medium', 'hard', 'extreme'];
-      let currIdx = levels.indexOf(state.gameDifficulty);
-      if (currIdx === -1) currIdx = 1;
-      
-      // Bascule au niveau suivant en boucle
-      const nextIdx = (currIdx + 1) % levels.length;
-      state.gameDifficulty = levels[nextIdx];
-      saveState();
-      updateDifficultyButtonText();
-    }
-
-    function updateDifficultyButtonText() {
-      const btn = document.getElementById('btn-pause-difficulty');
-      if (!btn) return;
-      
-      const isEn = state.lang === 'en';
-      const diffLabels = {
-        easy: { fr: '🟢 Facile', en: '🟢 Easy' },
-        medium: { fr: '🟡 Moyen', en: '🟡 Medium' },
-        hard: { fr: '🔴 Difficile', en: '🔴 Hard' },
-        extreme: { fr: '💀 Extrême', en: '💀 Extreme' }
-      };
-
-      const prefix = isEn ? '⚡ Level: ' : '⚡ Niveau : ';
-      const label = diffLabels[state.gameDifficulty] 
-        ? diffLabels[state.gameDifficulty][isEn ? 'en' : 'fr'] 
-        : diffLabels.medium[isEn ? 'en' : 'fr'];
-
-      btn.innerText = `${prefix}${label}`;
-    }
-
+	
     function openSnakeLeaderboardFromPause() {
       openSnakeLeaderboard();
     }
@@ -7614,7 +7579,6 @@ input[type="number"] {
       document.getElementById('btn-pause-resume').innerText = t.pauseResume;
       document.getElementById('btn-toggle-customize').innerText = isControlsCustomizeMode ? t.pauseSaveKeys : t.pauseMoveKeys;
       document.getElementById('btn-pause-reset-controls').innerText = t.pauseResetKeys;
-	  updateDifficultyButtonText(); // <-- Remplace l'ancienne ligne du classement !
       document.getElementById('btn-pause-quit').innerText = t.pauseQuit;
       document.getElementById('btn-gameover-replay').innerText = t.btnReplay;
       document.getElementById('btn-gameover-leaderboard').innerText = t.btnLeaderboard;
