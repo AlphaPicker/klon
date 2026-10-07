@@ -4397,23 +4397,26 @@ input[type="number"] {
 
     function spawnSnakeFood() {
       const icons = ['🪙', '💵', '💰', '✨'];
-      const targetCount = 3; // Nombre d'objets simultanés à l'écran
+      const targetCount = 3;
 
-      while (snakeFoods.length < targetCount) {
+      let loopLimit = 0;
+      while (snakeFoods.length < targetCount && loopLimit++ < 150) {
         let newX, newY, validPos = false;
+        let attempts = 0;
     
-      while (!validPos) {
-        newX = Math.floor(Math.random() * GRID_SIZE);
-        newY = Math.floor(Math.random() * GRID_SIZE);
-      
-        // Vérifie que la position ne superpose ni le serpent ni un autre objet déjà présent
-        const hitSnake = snake.some(part => part.x === newX && part.y === newY);
-        const hitFood = snakeFoods.some(food => food.x === newX && food.y === newY);
-        validPos = !hitSnake && !hitFood;
-       }
+        while (!validPos && attempts++ < 80) {
+          newX = Math.floor(Math.random() * GRID_SIZE);
+          newY = Math.floor(Math.random() * GRID_SIZE);
+        
+          const hitSnake = snake.some(part => part.x === newX && part.y === newY);
+          const hitFood = snakeFoods.some(food => food.x === newX && food.y === newY);
+          validPos = !hitSnake && !hitFood;
+        }
 
-       const icon = icons[Math.floor(Math.random() * icons.length)];
-       snakeFoods.push({ x: newX, y: newY, icon: icon });
+        if (validPos) {
+          const icon = icons[Math.floor(Math.random() * icons.length)];
+          snakeFoods.push({ x: newX, y: newY, icon: icon });
+        }
       }
     }
 
@@ -5803,8 +5806,8 @@ input[type="number"] {
         ? (state.lang === 'en' ? 'NEW SMASH RECORD!' : 'NOUVEAU RECORD !') 
         : (state.lang === 'en' ? 'Game Over!' : 'Boucliers détruits !');
       document.getElementById('gameover-msg').innerText = state.lang === 'en'
-        ? `Score: ${smashScore} round(s) won by ${activeKlonName}.`
-        : `Score : ${smashScore} manche(s) gagnée(s) face au patron !`;
+        ? `Score: ${smashScore} boss(es) fired 👔!`
+        : `Score : ${smashScore} patron(s) viré(s) face au patron 👔 !`;
 
       document.getElementById('snake-gameover-modal').classList.add('active');
       document.body.style.overflow = 'hidden';
@@ -7367,6 +7370,8 @@ input[type="number"] {
       checkBadges(completedClonesCount, coverageRatio, allBaseCompleted, unlockedSuperIds, totalMonthlyCapacity, totalExpenses);
     }
 
+    let isDragContainerInitialized = false;
+
     function initDragAndDrop() {
       const container = document.getElementById('clones-container');
       if (!container) return;
@@ -7374,29 +7379,32 @@ input[type="number"] {
 
       // --- 1. GESTION DESKTOP (SOURIS) ---
       cards.forEach(card => {
-        card.addEventListener('dragstart', (e) => {
+        card.ondragstart = (e) => {
           card.classList.add('dragging');
           e.dataTransfer.setData('text/plain', card.dataset.id);
-        });
+        };
 
-        card.addEventListener('dragend', () => {
+        card.ondragend = () => {
           card.classList.remove('dragging');
           saveNewOrder();
+        };
+      });
+
+      if (!isDragContainerInitialized) {
+        container.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          const draggingCard = container.querySelector('.dragging');
+          if (!draggingCard) return;
+
+          const nextSibling = getDragAfterElement(container, e.clientY);
+          if (nextSibling == null) {
+            container.appendChild(draggingCard);
+          } else {
+            container.insertBefore(draggingCard, nextSibling);
+          }
         });
-      });
-
-      container.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        const draggingCard = container.querySelector('.dragging');
-        if (!draggingCard) return;
-
-        const nextSibling = getDragAfterElement(container, e.clientY);
-        if (nextSibling == null) {
-          container.appendChild(draggingCard);
-        } else {
-          container.insertBefore(draggingCard, nextSibling);
-        }
-      });
+        isDragContainerInitialized = true;
+      }
 
       // --- 2. GESTION MOBILE TACTILE ---
       cards.forEach(card => {
