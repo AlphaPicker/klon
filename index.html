@@ -7855,9 +7855,11 @@ function showBackupWarningInfo() {
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js').then((reg) => {
-        // Vérifie s'il y a une mise à jour de sw.js au chargement de la page
+      // On force le scope au dossier courant avec { scope: './' }
+      navigator.serviceWorker.register('./sw.js', { scope: './' }).then((reg) => {
         reg.update();
+      }).catch((err) => {
+        console.error('Erreur enregistrement SW :', err);
       });
     });
   }
