@@ -3,7 +3,7 @@
   "scope": "/klon/",
   "name": "KLON",
   "short_name": "KLON",
-  "start_url": "./index.html",
+  "start_url": "/klon/index.html",
   "display_override": ["fullscreen", "standalone"],
   "display": "fullscreen",
   "background_color": "#0d1117",
