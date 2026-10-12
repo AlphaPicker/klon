@@ -1,7 +1,6 @@
 {
   "id": "/klon/",
   "scope": "/klon/",
-  "start_url": "/klon/index.html",
   "name": "KLON",
   "short_name": "KLON",
   "start_url": "./index.html",
